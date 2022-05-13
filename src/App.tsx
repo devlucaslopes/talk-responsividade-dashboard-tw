@@ -17,6 +17,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 import { SampleTable } from './components/SampleTable';
+import SampleCard from './components/SampleCard';
 
 const drawerWidth = 240;
 
@@ -28,7 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
     drawer: {
       [theme.breakpoints.up('sm')]: {
         width: drawerWidth,
-        flexShrink: 0,
       },
     },
     appBar: {
@@ -51,6 +51,11 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
     },
+    cardList: {
+      display: 'flex',
+      gap: '16px',
+      flexWrap: 'wrap'
+    }
   }),
 );
 
@@ -115,7 +120,7 @@ export default function ResponsiveDrawer() {
           null : 
           <Drawer
             variant="temporary"
-            anchor="right"
+            anchor="left"
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -140,7 +145,23 @@ export default function ResponsiveDrawer() {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <SampleTable />
+
+        {
+          hidenOnMobile ?         
+          <div className={classes.cardList}>
+            <SampleCard />
+            <SampleCard />
+            <SampleCard />
+            <SampleCard />
+            <SampleCard />
+            <SampleCard />
+            <SampleCard />
+          </div> : <SampleTable />
+        }
+        
+        
+
+
       </main>
     </div>
   );
