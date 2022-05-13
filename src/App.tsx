@@ -13,7 +13,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 import { SampleTable } from './components/SampleTable';
@@ -56,6 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function ResponsiveDrawer() {
   const classes = useStyles();
+  const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -86,6 +88,9 @@ export default function ResponsiveDrawer() {
     </div>
   );
 
+  const hidenOnDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+  const hidenOnMobile = useMediaQuery(theme.breakpoints.down('xs'));
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
@@ -106,7 +111,9 @@ export default function ResponsiveDrawer() {
       </AppBar>
 
       <nav className={classes.drawer} aria-label="mailbox folders">
-        <Hidden smUp>
+        {
+          hidenOnDesktop ? 
+          null : 
           <Drawer
             variant="temporary"
             anchor="right"
@@ -118,8 +125,9 @@ export default function ResponsiveDrawer() {
           >
             {drawer}
           </Drawer>
-        </Hidden>
-        <Hidden xsDown>
+        }
+        {
+          !hidenOnMobile &&           
           <Drawer
             classes={{
               paper: classes.drawerPaper,
@@ -129,7 +137,7 @@ export default function ResponsiveDrawer() {
           >
             {drawer}
           </Drawer>
-        </Hidden>
+        }
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
